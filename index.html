@@ -1,0 +1,1650 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bee Technologies POS | Computer Shop</title>
+    <link rel="stylesheet" href="style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+
+<body>
+
+    <!-- LOGIN SCREEN -->
+    <div id="loginScreen" class="login-overlay">
+        <div class="login-card">
+            <div class="login-logo">
+                <img src="WhatsApp Image 2026-02-22 at 12.51.24.jpeg" alt="BEE TECH Logo" />
+                <h2 id="loginShopName">BEE TECHNOLOGIES</h2>
+                <p>Advanced POS System</p>
+            </div>
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label><i class="fas fa-user"></i> Username</label>
+                    <input type="text" id="loginUsername" placeholder="Enter username" required />
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-lock"></i> Password</label>
+                    <input type="password" id="loginPassword" placeholder="Enter password" required />
+                </div>
+                <button type="submit" class="btn btn-primary login-btn">
+                    <span>Login to System</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </form>
+            <div class="login-footer">
+                <p>&copy; 2026 Bee Technologies. All rights reserved.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <img src="WhatsApp Image 2026-02-22 at 12.51.24.jpeg" alt="BEE TECH Logo" class="logo-img" />
+                <span class="logo-text" id="sidebarLogoText">BEE TECH</span>
+            </div>
+            <button class="sidebar-toggle" id="sidebarToggle"><i class="fas fa-bars"></i></button>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="#" class="nav-item active" data-page="dashboard" id="nav-dashboard">
+                <i class="fas fa-chart-pie"></i><span>Dashboard</span>
+            </a>
+            <a href="#" class="nav-item" data-page="pos" id="nav-pos">
+                <i class="fas fa-shopping-cart"></i><span>New Sale</span>
+            </a>
+            <a href="#" class="nav-item" data-page="quotations" id="nav-quotations">
+                <i class="fas fa-file-lines"></i><span>Quotations</span>
+            </a>
+            <a href="#" class="nav-item" data-page="products" id="nav-products">
+                <i class="fas fa-box-open"></i><span>Products</span>
+            </a>
+            <a href="#" class="nav-item" data-page="inventory" id="nav-inventory">
+                <i class="fas fa-warehouse"></i><span>Inventory</span>
+            </a>
+            <a href="#" class="nav-item" data-page="categories" id="nav-categories">
+                <i class="fas fa-tags"></i><span>Categories</span>
+            </a>
+            <a href="#" class="nav-item" data-page="invoices" id="nav-invoices">
+                <i class="fas fa-file-invoice"></i><span>Invoice List</span>
+            </a>
+            <a href="#" class="nav-item" data-page="customers" id="nav-customers">
+                <i class="fas fa-users"></i><span>Customers</span>
+            </a>
+            <a href="#" class="nav-item" data-page="reports" id="nav-reports">
+                <i class="fas fa-chart-bar"></i><span>Reports</span>
+            </a>
+            <a href="#" class="nav-item" data-page="accounts" id="nav-accounts">
+                <i class="fas fa-file-invoice-dollar"></i><span>Accounts</span>
+            </a>
+            <a href="#" class="nav-item" data-page="users" id="nav-users">
+                <i class="fas fa-user-shield"></i><span>Users</span>
+            </a>
+            <a href="#" class="nav-item" data-page="suppliers" id="nav-suppliers">
+                <i class="fas fa-truck"></i><span>Suppliers</span>
+            </a>
+            <a href="#" class="nav-item" data-page="purchases" id="nav-purchases">
+                <i class="fas fa-cart-arrow-down"></i><span>Stock In</span>
+            </a>
+            <a href="#" class="nav-item" data-page="cctv" id="nav-cctv">
+                <i class="fas fa-video"></i><span>CCTV Systems</span>
+            </a>
+            <a href="#" class="nav-item" data-page="expenses" id="nav-expenses">
+                <i class="fas fa-wallet"></i><span>Expenses</span>
+            </a>
+            <a href="#" class="nav-item" data-page="settings" id="nav-settings">
+                <i class="fas fa-cog"></i><span>Settings</span>
+            </a>
+            <a href="#" class="nav-item" onclick="exportData()" title="Backup Data">
+                <i class="fas fa-download"></i><span>Backup</span>
+            </a>
+            <label class="nav-item" style="cursor:pointer" title="Restore Data">
+                <i class="fas fa-upload"></i><span>Restore</span>
+                <input type="file" id="restoreFile" style="display:none" onchange="importData(event)">
+            </label>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="shop-info">
+                <i class="fas fa-store"></i>
+                <span>Bee Technologies</span>
+            </div>
+            <button class="logout-btn" onclick="handleLogout()">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </button>
+            <div
+                style="font-size: 0.65rem; color: var(--text-muted); margin-top: 12px; text-align: center; opacity: 0.5; font-style: italic;">
+                by Lakshan v peiris
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content" id="mainContent">
+
+        <!-- Top Bar -->
+        <header class="topbar">
+            <div class="topbar-left">
+                <h1 class="page-title" id="pageTitle">Dashboard</h1>
+                <p class="page-subtitle" id="pageSubtitle">Welcome back! Here's what's happening today.</p>
+            </div>
+            <div class="topbar-right">
+                <div class="datetime" id="datetime"></div>
+                <div class="notification-bell" id="lowStockBell" title="Low Stock Alerts"
+                    onclick="switchPage('inventory')">
+                    <i class="fas fa-bell"></i>
+                    <span class="bell-badge" id="bell-count">0</span>
+                </div>
+                <button class="btn btn-primary" id="quickSaleBtn" style="display:none;" onclick="switchPage('pos')">
+                    <i class="fas fa-plus"></i> New Sale
+                </button>
+            </div>
+        </header>
+
+        <!-- DASHBOARD PAGE -->
+        <section class="page active" id="page-dashboard">
+            <div class="stats-grid">
+                <div class="stat-card blue">
+                    <div class="stat-icon"><i class="fas fa-dollar-sign"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-label">Today's Sales</span>
+                        <span class="stat-value" id="stat-today-sales">Rs. 0</span>
+                    </div>
+                </div>
+                <div class="stat-card blue">
+                    <div class="stat-icon"><i class="fas fa-calendar-day"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-label">Daily Profit</span>
+                        <span class="stat-value" id="stat-today-profit">Rs. 0</span>
+                    </div>
+                </div>
+                <div class="stat-card purple">
+                    <div class="stat-icon"><i class="fas fa-chart-line"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-label">Monthly Sales</span>
+                        <span class="stat-value" id="stat-monthly-sales">Rs. 0</span>
+                    </div>
+                </div>
+                <div class="stat-card purple">
+                    <div class="stat-icon"><i class="fas fa-coins"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-label">Monthly Profit</span>
+                        <span class="stat-value" id="stat-monthly-profit">Rs. 0</span>
+                    </div>
+                </div>
+                <div class="stat-card green" style="grid-column: span 1">
+                    <div class="stat-icon"><i class="fas fa-receipt"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-label">Invoices Today</span>
+                        <span class="stat-value" id="stat-invoices-today">0</span>
+                    </div>
+                </div>
+                <div class="stat-card orange" style="grid-column: span 1">
+                    <div class="stat-icon"><i class="fas fa-exclamation-triangle"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-label">Low Stock Items</span>
+                        <span class="stat-value" id="stat-low-stock">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DASHBOARD CHARTS -->
+            <div class="dashboard-grid"
+                style="grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); margin-bottom: 1.5rem;">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-chart-area"></i> Sales Analytics (Last 7 Days)</h3>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="salesChart" height="200"></canvas>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-chart-pie"></i> Sales by Category</h3>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="categoryChart" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Recent Invoices</h3>
+                        <button onclick="switchPage('invoices')" class="btn btn-sm btn-ghost">View All</button>
+                    </div>
+                    <div class="card-body">
+                        <table class="table" id="dashboard-recent-invoices">
+                            <thead>
+                                <tr>
+                                    <th>Invoice #</th>
+                                    <th>Customer</th>
+                                    <th>Amount</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody id="dashboard-invoices-body">
+                                <tr>
+                                    <td colspan="4" class="empty-row">No invoices yet</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Low Stock Alert</h3>
+                        <button onclick="switchPage('inventory')" class="btn btn-sm btn-ghost">View All</button>
+                    </div>
+                    <div class="card-body">
+                        <div id="low-stock-list">
+                            <p class="empty-text">All items well stocked</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-crown" style="color:var(--yellow)"></i> Best Selling Products</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="best-sellings-list" id="best-selling-list">
+                            <p class="empty-text">No data yet</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- KEYBOARD SHORTCUTS HELP -->
+            <div class="shortcut-help">
+                <div class="shortcut-item"><span>F1</span> <i class="fas fa-cart-plus"></i> New Sale</div>
+                <div class="shortcut-item"><span>F2</span> <i class="fas fa-search"></i> Search</div>
+                <div class="shortcut-item"><span>F3</span> <i class="fas fa-trash-can"></i> Clear Cart</div>
+                <div class="shortcut-item"><span>F4</span> <i class="fas fa-house"></i> Dashboard</div>
+            </div>
+        </section>
+
+        <!-- POS PAGE -->
+        <section class="page" id="page-pos">
+            <div class="pos-layout">
+                <!-- Product Panel -->
+                <div class="pos-products">
+                    <div class="pos-search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="posSearch" placeholder="Search products by name or barcode..."
+                            oninput="filterPOSProducts()" />
+                        <select id="posCategoryFilter" onchange="filterPOSProducts()">
+                            <option value="">All Categories</option>
+                        </select>
+                    </div>
+                    <div class="pos-product-grid" id="posProductGrid"></div>
+                </div>
+                <!-- Cart Panel -->
+                <div class="pos-cart">
+                    <div class="cart-header">
+                        <h3><i class="fas fa-shopping-cart"></i> Current Sale</h3>
+                        <button class="btn btn-sm btn-danger" onclick="clearCart()"><i class="fas fa-trash"></i>
+                            Clear</button>
+                    </div>
+                    <div class="cart-customer">
+                        <div class="pos-cust-search-wrap">
+                            <input type="text" id="customerPhone" placeholder="Search by Phone (Existing Customers)"
+                                oninput="searchPOSCustomer(this.value)" autocomplete="off" />
+                            <div id="posCustSuggestions" class="pos-cust-suggestions"></div>
+                        </div>
+                        <input type="text" id="customerName" placeholder="Customer Name (Auto-filled)" />
+                    </div>
+                    <div class="cart-items" id="cartItems">
+                        <div class="cart-empty"><i class="fas fa-cart-shopping"></i>
+                            <p>Cart is empty</p>
+                        </div>
+                    </div>
+                    <div class="cart-summary">
+                        <div class="summary-row"><span>Subtotal</span><span id="cartSubtotal">Rs. 0.00</span></div>
+                        <div class="summary-row discount-row">
+                            <span>Discount</span>
+                            <div class="discount-input">
+                                <input type="number" id="discountValue" value="0" min="0"
+                                    oninput="updateCartTotals()" />
+                                <select id="discountType" onchange="updateCartTotals()">
+                                    <option value="percent">%</option>
+                                    <option value="fixed">Rs.</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="summary-row total-row"><span>TOTAL</span><span id="cartTotal">Rs. 0.00</span></div>
+                        <div class="payment-method">
+                            <label>Payment</label>
+                            <div class="payment-btns">
+                                <button class="pay-btn active" onclick="selectPayment(this,'cash')"><i
+                                        class="fas fa-money-bill-wave"></i> Cash</button>
+                                <button class="pay-btn" onclick="selectPayment(this,'card')"><i
+                                        class="fas fa-credit-card"></i> Card</button>
+                                <button class="pay-btn" onclick="selectPayment(this,'transfer')"><i
+                                        class="fas fa-mobile-alt"></i> Transfer</button>
+                            </div>
+                        </div>
+                        <div id="cashTenderSection">
+                            <input type="number" id="cashTendered" placeholder="Amount Paid by Customer (Rs.)"
+                                oninput="calcChange()" min="0" />
+                            <div class="summary-row change-row"><span>Change</span><span id="changeAmount">Rs.
+                                    0.00</span></div>
+                        </div>
+                        <button class="btn btn-success btn-lg btn-block" onclick="completeSale()">
+                            <i class="fas fa-check-circle"></i> Complete Sale
+                        </button>
+                        <button class="btn btn-primary btn-block" style="margin-top: 10px;" onclick="createQuotation()">
+                            <i class="fas fa-file-invoice"></i> Create Quotation
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PRODUCTS PAGE -->
+        <section class="page" id="page-products">
+            <div class="page-actions">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="productSearch" placeholder="Search products..." oninput="renderProducts()" />
+                </div>
+                <button class="btn btn-primary" onclick="openProductModal()">
+                    <i class="fas fa-plus"></i> Add Product
+                </button>
+            </div>
+            <div class="card">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Barcode</th>
+                            <th>Buy Price</th>
+                            <th>Sell Price</th>
+                            <th>Stock</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="productsTableBody"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- QUOTATIONS PAGE -->
+        <section class="page" id="page-quotations">
+            <div class="page-actions">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="quotationSearch" placeholder="Search quotations..."
+                        oninput="renderQuotations()" />
+                </div>
+                <button class="btn btn-primary" onclick="switchPage('pos')">
+                    <i class="fas fa-plus"></i> New Quotation
+                </button>
+            </div>
+            <div class="card">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Quotation #</th>
+                            <th>Customer</th>
+                            <th>Items</th>
+                            <th>Total</th>
+                            <th>Valid Until</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="quotationsTableBody"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- CCTV SYSTEMS PAGE -->
+        <section class="page" id="page-cctv">
+            <div class="page-actions">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search CCTV products..." oninput="renderCCTV()" id="cctvSearch" />
+                </div>
+                <button class="btn btn-primary" onclick="openProductModal()">
+                    <i class="fas fa-plus"></i> Add CCTV Item
+                </button>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fas fa-video"></i> CCTV & Security Inventory</h3>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Product Name</th>
+                                <th>Brand</th>
+                                <th>Model / Barcode</th>
+                                <th>Selling Price</th>
+                                <th>Stock Status</th>
+                                <th style="width:100px">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cctvTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- INVENTORY PAGE -->
+        <section class="page" id="page-inventory">
+            <div class="page-actions">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="inventorySearch" placeholder="Search inventory..."
+                        oninput="renderInventory()" />
+                </div>
+                <button class="btn btn-primary" onclick="openStockModal()">
+                    <i class="fas fa-plus-circle"></i> Add Stock
+                </button>
+            </div>
+            <div class="stats-grid" style="margin-bottom:1.5rem;">
+                <div class="stat-card blue" style="cursor:default">
+                    <div class="stat-icon"><i class="fas fa-cubes"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-label">Total Stock Value</span>
+                        <span class="stat-value" id="inv-total-value">Rs. 0</span>
+                    </div>
+                </div>
+                <div class="stat-card red" style="cursor:default">
+                    <div class="stat-icon"><i class="fas fa-exclamation-circle"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-label">Out of Stock</span>
+                        <span class="stat-value" id="inv-out-stock">0</span>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Category</th>
+                            <th>Stock Qty</th>
+                            <th>Buy Price</th>
+                            <th>Stock Value</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="inventoryTableBody"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- CATEGORIES PAGE -->
+        <section class="page" id="page-categories">
+            <div class="page-actions">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="categorySearch" placeholder="Search categories..."
+                        oninput="renderCategories()" />
+                </div>
+                <button class="btn btn-primary" onclick="openCategoryModal()">
+                    <i class="fas fa-plus"></i> Add Category
+                </button>
+            </div>
+            <div class="card" style="max-width: 600px;">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th style="width:50px">#</th>
+                            <th>Category Name</th>
+                            <th style="width:100px">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="categoriesTableBody"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- INVOICES PAGE -->
+        <section class="page" id="page-invoices">
+            <div class="page-actions">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="invoiceSearch" placeholder="Search invoices..." oninput="renderInvoices()" />
+                </div>
+                <div class="date-filter">
+                    <input type="date" id="invoiceDateFrom" oninput="renderInvoices()" />
+                    <span>to</span>
+                    <input type="date" id="invoiceDateTo" oninput="renderInvoices()" />
+                </div>
+                <button class="btn btn-red" onclick="batchExportPDFs()">
+                    <i class="fas fa-file-pdf"></i> Batch PDF Export
+                </button>
+            </div>
+            <div class="card">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Invoice #</th>
+                            <th>Customer</th>
+                            <th>Items</th>
+                            <th>Total</th>
+                            <th>Payment</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="invoicesTableBody"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- CUSTOMERS PAGE -->
+        <section class="page" id="page-customers">
+            <div class="page-actions">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="customerSearch" placeholder="Search by name, phone or email..."
+                        oninput="renderCustomers()" />
+                </div>
+                <button class="btn btn-primary" onclick="openCustomerModal()">
+                    <i class="fas fa-user-plus"></i> Add Customer
+                </button>
+            </div>
+            <div class="stats-grid" style="margin-bottom:1.5rem;">
+                <div class="stat-card blue" style="cursor:default">
+                    <div class="stat-icon"><i class="fas fa-users"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-label">Total Customers</span>
+                        <span class="stat-value" id="cust-total">0</span>
+                    </div>
+                </div>
+                <div class="stat-card green" style="cursor:default">
+                    <div class="stat-icon"><i class="fas fa-trophy"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-label">Top Customer Spend</span>
+                        <span class="stat-value" id="cust-top-spend">Rs. 0</span>
+                    </div>
+                </div>
+                <div class="stat-card purple" style="cursor:default">
+                    <div class="stat-icon"><i class="fas fa-chart-line"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-label">Total Revenue</span>
+                        <span class="stat-value" id="cust-total-revenue">Rs. 0</span>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Customer</th>
+                            <th>Phone</th>
+                            <th>Email</th>
+                            <th>Address</th>
+                            <th>Purchases</th>
+                            <th>Total Spent</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="customersTableBody"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- REPORTS PAGE -->
+        <section class="page" id="page-reports">
+
+            <!-- Report Tabs -->
+            <div class="report-tabs" id="reportTabs">
+                <button class="report-tab active" onclick="switchReportTab('sales',this)">
+                    <i class="fas fa-chart-line"></i> Sales Report
+                </button>
+                <button class="report-tab" onclick="switchReportTab('stock',this)">
+                    <i class="fas fa-boxes"></i> Stock Report
+                </button>
+                <button class="report-tab" onclick="switchReportTab('profit',this)">
+                    <i class="fas fa-coins"></i> Profit Report
+                </button>
+            </div>
+
+            <!-- ======= SALES REPORT ======= -->
+            <div class="report-panel active" id="report-sales">
+                <div class="report-toolbar">
+                    <div class="report-date-range">
+                        <label>From</label>
+                        <input type="date" id="salesRptFrom" onchange="renderSalesReport()" />
+                        <label>To</label>
+                        <input type="date" id="salesRptTo" onchange="renderSalesReport()" />
+                        <button class="btn btn-ghost btn-sm" onclick="resetReportDates('salesRpt')"><i
+                                class="fas fa-rotate-left"></i> All Time</button>
+                    </div>
+                    <button class="btn btn-success btn-sm" onclick="exportExcel('sales')">
+                        <i class="fas fa-file-excel"></i> Export Excel
+                    </button>
+                    <button class="btn btn-red btn-sm" onclick="batchExportPDFs()">
+                        <i class="fas fa-file-pdf"></i> Batch PDF Export
+                    </button>
+                </div>
+
+                <!-- Summary KPIs -->
+                <div class="stats-grid" style="margin-bottom:1.5rem">
+                    <div class="stat-card blue" style="cursor:default">
+                        <div class="stat-icon"><i class="fas fa-receipt"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-label">Total Invoices</span>
+                            <span class="stat-value" id="rpt-sales-count">0</span>
+                        </div>
+                    </div>
+                    <div class="stat-card green" style="cursor:default">
+                        <div class="stat-icon"><i class="fas fa-dollar-sign"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-label">Total Revenue</span>
+                            <span class="stat-value" id="rpt-sales-revenue">Rs. 0</span>
+                        </div>
+                    </div>
+                    <div class="stat-card purple" style="cursor:default">
+                        <div class="stat-icon"><i class="fas fa-tag"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-label">Total Discount</span>
+                            <span class="stat-value" id="rpt-sales-discount">Rs. 0</span>
+                        </div>
+                    </div>
+                    <div class="stat-card orange" style="cursor:default">
+                        <div class="stat-icon"><i class="fas fa-shopping-basket"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-label">Avg. Order Value</span>
+                            <span class="stat-value" id="rpt-sales-avg">Rs. 0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Sales Transactions</h3>
+                    </div>
+                    <div class="card-body">
+                        <table class="table" id="salesRptTable">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Invoice No</th>
+                                    <th>Customer</th>
+                                    <th>Items</th>
+                                    <th>Subtotal</th>
+                                    <th>Discount</th>
+                                    <th>Total</th>
+                                    <th>Payment</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody id="salesRptBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ======= STOCK REPORT ======= -->
+            <div class="report-panel" id="report-stock">
+                <div class="report-toolbar">
+                    <div class="report-date-range"><span style="color:var(--text-secondary);font-size:0.85rem"><i
+                                class="fas fa-info-circle"></i> Shows current live stock levels</span></div>
+                    <button class="btn btn-success btn-sm" onclick="exportExcel('stock')">
+                        <i class="fas fa-file-excel"></i> Export Excel
+                    </button>
+                </div>
+
+                <div class="stats-grid" style="margin-bottom:1.5rem">
+                    <div class="stat-card blue" style="cursor:default">
+                        <div class="stat-icon"><i class="fas fa-cubes"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-label">Total Products</span>
+                            <span class="stat-value" id="rpt-stock-products">0</span>
+                        </div>
+                    </div>
+                    <div class="stat-card green" style="cursor:default">
+                        <div class="stat-icon"><i class="fas fa-boxes"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-label">Total Stock Value</span>
+                            <span class="stat-value" id="rpt-stock-value">Rs. 0</span>
+                        </div>
+                    </div>
+                    <div class="stat-card red" style="cursor:default">
+                        <div class="stat-icon"><i class="fas fa-exclamation-circle"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-label">Out of Stock</span>
+                            <span class="stat-value" id="rpt-stock-out">0</span>
+                        </div>
+                    </div>
+                    <div class="stat-card orange" style="cursor:default">
+                        <div class="stat-icon"><i class="fas fa-exclamation-triangle"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-label">Low Stock</span>
+                            <span class="stat-value" id="rpt-stock-low">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Stock Levels by Product</h3>
+                    </div>
+                    <div class="card-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Product</th>
+                                    <th>Category</th>
+                                    <th>Brand</th>
+                                    <th>Barcode</th>
+                                    <th>In Stock</th>
+                                    <th>Low-Stock Alert</th>
+                                    <th>Buy Price</th>
+                                    <th>Stock Value</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="stockRptBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ======= PROFIT REPORT ======= -->
+            <div class="report-panel" id="report-profit">
+                <div class="report-toolbar">
+                    <div class="report-date-range">
+                        <label>From</label>
+                        <input type="date" id="profitRptFrom" onchange="renderProfitReport()" />
+                        <label>To</label>
+                        <input type="date" id="profitRptTo" onchange="renderProfitReport()" />
+                        <button class="btn btn-ghost btn-sm" onclick="resetReportDates('profitRpt')"><i
+                                class="fas fa-rotate-left"></i> All Time</button>
+                    </div>
+                    <button class="btn btn-success btn-sm" onclick="exportExcel('profit')">
+                        <i class="fas fa-file-excel"></i> Export Excel
+                    </button>
+                </div>
+
+                <div class="stats-grid" style="margin-bottom:1.5rem">
+                    <div class="stat-card green" style="cursor:default">
+                        <div class="stat-icon"><i class="fas fa-dollar-sign"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-label">Total Revenue</span>
+                            <span class="stat-value" id="rpt-profit-revenue">Rs. 0</span>
+                        </div>
+                    </div>
+                    <div class="stat-card blue" style="cursor:default">
+                        <div class="stat-icon"><i class="fas fa-shopping-cart"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-label">Total Cost</span>
+                            <span class="stat-value" id="rpt-profit-cost">Rs. 0</span>
+                        </div>
+                    </div>
+                    <div class="stat-card purple" style="cursor:default">
+                        <div class="stat-icon"><i class="fas fa-coins"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-label">Gross Profit</span>
+                            <span class="stat-value" id="rpt-profit-gross">Rs. 0</span>
+                        </div>
+                    </div>
+                    <div class="stat-card red" style="cursor:default">
+                        <div class="stat-icon"><i class="fas fa-wallet"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-label">Total Expenses</span>
+                            <span class="stat-value" id="rpt-profit-expenses">Rs. 0</span>
+                        </div>
+                    </div>
+                    <div class="stat-card green" style="cursor:default">
+                        <div class="stat-icon"><i class="fas fa-money-bill-trend-up"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-label">Net Profit</span>
+                            <span class="stat-value" id="rpt-profit-net" style="font-weight:800">Rs. 0</span>
+                        </div>
+                    </div>
+                    <div class="stat-card orange" style="cursor:default">
+                        <div class="stat-icon"><i class="fas fa-percent"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-label">Net Margin</span>
+                            <span class="stat-value" id="rpt-profit-margin">0%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Profit by Product</h3>
+                    </div>
+                    <div class="card-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Product</th>
+                                    <th>Category</th>
+                                    <th>Units Sold</th>
+                                    <th>Sell Price</th>
+                                    <th>Buy Price</th>
+                                    <th>Revenue</th>
+                                    <th>Cost</th>
+                                    <th>Profit</th>
+                                    <th>Margin</th>
+                                </tr>
+                            </thead>
+                            <tbody id="profitRptBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- USERS PAGE -->
+        <section class="page" id="page-users">
+            <div class="page-actions">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search users..." oninput="/* filter logic if needed */" />
+                </div>
+                <button class="btn btn-primary" onclick="openUserModal()">
+                    <i class="fas fa-user-plus"></i> Add User
+                </button>
+            </div>
+            <div class="card">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th style="width:50px">#</th>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th style="width:100px">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usersTableBody"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- SUPPLIERS PAGE -->
+        <section class="page" id="page-suppliers">
+            <div class="page-actions">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search suppliers..." id="supplierSearch"
+                        oninput="renderSuppliers()" />
+                </div>
+                <button class="btn btn-primary" onclick="openSupplierModal()">
+                    <i class="fas fa-truck"></i> Add Supplier
+                </button>
+            </div>
+            <div class="card">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th style="width:50px">#</th>
+                            <th>Supplier Name</th>
+                            <th>Contact Person</th>
+                            <th>Phone</th>
+                            <th>Email</th>
+                            <th style="width:100px">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="suppliersTableBody"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- PURCHASES PAGE (STOCK IN) -->
+        <section class="page" id="page-purchases">
+            <div class="page-actions">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search purchases..." id="purchaseSearch"
+                        oninput="renderPurchases()" />
+                </div>
+                <button class="btn btn-primary" onclick="openPurchaseModal()">
+                    <i class="fas fa-plus"></i> New Stock In
+                </button>
+            </div>
+            <div class="card">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Supplier</th>
+                            <th>Product</th>
+                            <th>Qty Added</th>
+                            <th>Unit Cost</th>
+                            <th>Total Cost</th>
+                            <th style="width:50px">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="purchasesTableBody"></tbody>
+                </table>
+            </div>
+        </section>
+
+
+        <!-- ACCOUNTS PAGE -->
+        <section class="page" id="page-accounts">
+            <div class="report-tabs" style="margin-bottom:20px">
+                <button class="report-tab active" onclick="switchAccountTab('receivables', this)">Receivables
+                    (Customers)</button>
+                <button class="report-tab" onclick="switchAccountTab('payables', this)">Payables (Suppliers)</button>
+            </div>
+
+            <!-- Receivables Panel -->
+            <div class="account-panel active" id="account-receivables">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Customer Credit Balances</h3>
+                    </div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Customer</th>
+                                <th>Total Sales</th>
+                                <th>Paid</th>
+                                <th style="color:var(--red)">Due / Balance</th>
+                                <th style="width:120px">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="receivablesTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Payables Panel -->
+            <div class="account-panel" id="account-payables">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Supplier Pending Payments</h3>
+                    </div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Supplier</th>
+                                <th>Total Purchases</th>
+                                <th>Paid</th>
+                                <th style="color:var(--red)">Due / Balance</th>
+                                <th style="width:120px">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="payablesTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- EXPENSES PAGE -->
+        <section class="page" id="page-expenses">
+            <div class="page-actions">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search expenses..." id="expenseSearch" oninput="renderExpenses()" />
+                </div>
+                <button class="btn btn-red" onclick="openExpenseModal()">
+                    <i class="fas fa-minus-circle"></i> Add Expense
+                </button>
+            </div>
+
+            <div class="stats-grid" style="margin-bottom:1.5rem">
+                <div class="stat-card red">
+                    <div class="stat-icon"><i class="fas fa-wallet"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-label">Today's Expenses</span>
+                        <span class="stat-value" id="exp-today">Rs. 0</span>
+                    </div>
+                </div>
+                <div class="stat-card orange">
+                    <div class="stat-icon"><i class="fas fa-calendar-alt"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-label">Total Month Expenses</span>
+                        <span class="stat-value" id="exp-month">Rs. 0</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Category</th>
+                            <th>Description</th>
+                            <th>Amount</th>
+                            <th style="width:50px">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="expensesTableBody"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- SETTINGS PAGE -->
+        <section class="page" id="page-settings">
+            <div class="card" style="max-width: 800px; margin: 0 auto;">
+                <div class="card-header">
+                    <h3><i class="fas fa-store"></i> Shop & System Settings</h3>
+                    <button class="btn btn-primary" onclick="saveSettings()">
+                        <i class="fas fa-save"></i> Save Settings
+                    </button>
+                </div>
+                <div class="card-body" style="padding: 24px;">
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <h4
+                                style="color: var(--blue); margin-bottom: 10px; border-bottom: 1px solid var(--border); padding-bottom: 5px;">
+                                General Information</h4>
+                        </div>
+                        <div class="form-group">
+                            <label>Shop Name</label>
+                            <input type="text" id="setShopName" placeholder="e.g. Bee Technologies" />
+                        </div>
+                        <div class="form-group">
+                            <label>Shop Phone</label>
+                            <input type="text" id="setShopPhone" placeholder="e.g. 0112345678" />
+                        </div>
+                        <div class="form-group">
+                            <label>Shop Email</label>
+                            <input type="email" id="setShopEmail" placeholder="e.g. info@beetech.com" />
+                        </div>
+                        <div class="form-group">
+                            <label>Currency Symbol</label>
+                            <input type="text" id="setCurrency" placeholder="e.g. Rs." />
+                        </div>
+                        <div class="form-group full-width">
+                            <label>Shop Address</label>
+                            <textarea id="setShopAddress" rows="2" placeholder="Full shop address..."></textarea>
+                        </div>
+
+                        <div class="form-group full-width" style="margin-top: 20px;">
+                            <h4
+                                style="color: var(--blue); margin-bottom: 10px; border-bottom: 1px solid var(--border); padding-bottom: 5px;">
+                                Invoice & System</h4>
+                        </div>
+                        <div class="form-group">
+                            <label>Low Stock Alert Threshold</label>
+                            <input type="number" id="setLowStock" placeholder="5" min="0" />
+                        </div>
+                        <div class="form-group">
+                            <label>Next Invoice Number Start</label>
+                            <input type="number" id="setInvoiceStart" placeholder="1001" min="1" disabled
+                                title="Currently managed automatically" />
+                        </div>
+                        <div class="form-group full-width">
+                            <label>Invoice Footer Message</label>
+                            <textarea id="setInvoiceFooter" rows="2"
+                                placeholder="e.g. Thank you for your business!"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer"
+                    style="padding: 16px 24px; border-top: 1px solid var(--border); display: flex; justify-content: flex-end;">
+                    <button class="btn btn-primary" onclick="saveSettings()">
+                        <i class="fas fa-save"></i> Save Settings
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- PRODUCT MODAL -->
+    <div class="modal-overlay" id="productModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="productModalTitle">Add Product</h3>
+                <button class="modal-close" onclick="closeModal('productModal')"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="editProductId" />
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Product Name *</label>
+                        <input type="text" id="prodName" placeholder="e.g. Intel Core i7-12700K" />
+                    </div>
+                    <div class="form-group">
+                        <label>Category *</label>
+                        <div style="display:flex; gap:8px;">
+                            <select id="prodCategory" style="flex:1">
+                                <option value="">Select Category</option>
+                            </select>
+                            <button type="button" class="btn btn-icon" onclick="openCategoryModal()"
+                                title="Add New Category"
+                                style="background:var(--blue-glow); border-color:var(--blue); color:var(--blue)">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Barcode / SKU</label>
+                        <input type="text" id="prodBarcode" placeholder="e.g. BX8071512700K" />
+                    </div>
+                    <div class="form-group">
+                        <label>Brand</label>
+                        <input type="text" id="prodBrand" placeholder="e.g. Intel" />
+                    </div>
+                    <div class="form-group">
+                        <label>Buying Price (Rs.) *</label>
+                        <input type="number" id="prodBuyPrice" placeholder="0.00" min="0" step="0.01" />
+                    </div>
+                    <div class="form-group">
+                        <label>Selling Price (Rs.) *</label>
+                        <input type="number" id="prodSellPrice" placeholder="0.00" min="0" step="0.01" />
+                    </div>
+                    <div class="form-group">
+                        <label>Initial Stock</label>
+                        <input type="number" id="prodStock" placeholder="0" min="0" />
+                    </div>
+                    <div class="form-group">
+                        <label>Low Stock Alert</label>
+                        <input type="number" id="prodLowStock" placeholder="5" min="0" />
+                    </div>
+                    <div class="form-group full-width">
+                        <label>Description</label>
+                        <textarea id="prodDescription" rows="2" placeholder="Product description..."></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-ghost" onclick="closeModal('productModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="saveProduct()"><i class="fas fa-save"></i> Save
+                    Product</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- STOCK MODAL -->
+    <div class="modal-overlay" id="stockModal">
+        <div class="modal modal-sm">
+            <div class="modal-header">
+                <h3>Add Stock</h3>
+                <button class="modal-close" onclick="closeModal('stockModal')"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Product *</label>
+                    <select id="stockProductId"></select>
+                </div>
+                <div class="form-group">
+                    <label>Quantity to Add *</label>
+                    <input type="number" id="stockQty" placeholder="0" min="1" />
+                </div>
+                <div class="form-group">
+                    <label>Note</label>
+                    <input type="text" id="stockNote" placeholder="e.g. Supplier: ABC Tech" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-ghost" onclick="closeModal('stockModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="addStock()"><i class="fas fa-plus"></i> Add Stock</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- INVOICE PRINT MODAL -->
+    <div class="modal-overlay" id="invoicePrintModal">
+        <div class="modal modal-lg">
+            <div class="modal-header no-border">
+                <h3>Invoice Preview</h3>
+                <div class="modal-header-actions">
+                    <button class="btn btn-primary" onclick="printInvoice()"><i class="fas fa-print"></i> Print</button>
+                    <button class="modal-close" onclick="closeModal('invoicePrintModal')"><i
+                            class="fas fa-times"></i></button>
+                </div>
+            </div>
+            <div class="modal-body" id="invoicePrintContent"></div>
+        </div>
+    </div>
+
+    <!-- CUSTOMER MODAL -->
+    <div class="modal-overlay" id="customerModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="customerModalTitle">Add Customer</h3>
+                <button class="modal-close" onclick="closeModal('customerModal')"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="editCustomerId" />
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Full Name *</label>
+                        <input type="text" id="custName" placeholder="e.g. Kamal Perera" />
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number *</label>
+                        <input type="text" id="custPhone" placeholder="e.g. 0771234567" />
+                    </div>
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" id="custEmail" placeholder="e.g. kamal@email.com" />
+                    </div>
+                    <div class="form-group">
+                        <label>NIC Number</label>
+                        <input type="text" id="custNic" placeholder="e.g. 991234567V" />
+                    </div>
+                    <div class="form-group full-width">
+                        <label>Address</label>
+                        <textarea id="custAddress" rows="2" placeholder="Customer address..."></textarea>
+                    </div>
+                    <div class="form-group full-width">
+                        <label>Notes</label>
+                        <textarea id="custNotes" rows="2"
+                            placeholder="Any special notes about this customer..."></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-ghost" onclick="closeModal('customerModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="saveCustomer()"><i class="fas fa-save"></i> Save
+                    Customer</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CUSTOMER HISTORY MODAL -->
+    <div class="modal-overlay" id="customerHistoryModal">
+        <div class="modal modal-lg">
+            <div class="modal-header">
+                <div>
+                    <h3 id="custHistoryName">Customer History</h3>
+                    <p id="custHistoryPhone" style="font-size:0.82rem;color:var(--text-secondary);margin-top:2px"></p>
+                </div>
+                <button class="modal-close" onclick="closeModal('customerHistoryModal')"><i
+                        class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="cust-history-stats" id="custHistoryStats"></div>
+                <table class="table" style="margin-top:16px">
+                    <thead>
+                        <tr>
+                            <th>Invoice #</th>
+                            <th>Items</th>
+                            <th>Total</th>
+                            <th>Payment</th>
+                            <th>Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="custHistoryBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- EDIT INVOICE MODAL -->
+    <div class="modal-overlay" id="editInvoiceModal">
+        <div class="modal modal-lg">
+            <div class="modal-header">
+                <div>
+                    <h3>Edit Invoice <span id="editInvNo" style="color:var(--yellow)"></span></h3>
+                    <p style="font-size:0.82rem;color:var(--text-secondary);margin-top:2px">
+                        <i class="fas fa-pen" style="color:var(--yellow);margin-right:4px"></i>
+                        Product price &amp; qty are <strong style="color:var(--yellow)">editable</strong> — just click
+                        the number and type!
+                    </p>
+                </div>
+                <button class="modal-close" onclick="closeModal('editInvoiceModal')"><i
+                        class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="editInvId" />
+
+                <!-- Items (editable qty + price) -->
+                <div class="edit-inv-section">
+                    <h4 class="edit-inv-section-title"><i class="fas fa-pen-to-square"></i> Items Purchased <span
+                            style="font-size:0.72rem;color:var(--yellow);margin-left:6px;font-weight:500;text-transform:none;letter-spacing:0">—
+                            Qty &amp; Price are editable</span></h4>
+                    <table class="table" style="margin-bottom:0">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th style="text-align:center">Qty ✏️</th>
+                                <th style="text-align:right">Unit Price (Rs.) ✏️</th>
+                                <th style="text-align:right">Row Total</th>
+                            </tr>
+                        </thead>
+                        <tbody id="editInvItemsTable"></tbody>
+                    </table>
+                    <div class="edit-inv-subtotal">
+                        <span>Subtotal:</span>
+                        <span id="editInvSubtotal" style="font-weight:700;color:var(--green)"></span>
+                    </div>
+                </div>
+
+                <!-- Editable fields -->
+                <div class="form-grid" style="margin-top:1.2rem">
+                    <div class="form-group">
+                        <label>Customer Name</label>
+                        <input type="text" id="editInvCustomerName" placeholder="e.g. Kamal Perera" />
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input type="text" id="editInvCustomerPhone" placeholder="e.g. 0771234567" />
+                    </div>
+                    <div class="form-group">
+                        <label>Discount Value</label>
+                        <div class="discount-input">
+                            <input type="number" id="editInvDiscountValue" min="0" value="0"
+                                oninput="recalcEditInvTotal()" />
+                            <select id="editInvDiscountType" onchange="recalcEditInvTotal()">
+                                <option value="percent">%</option>
+                                <option value="fixed">Rs.</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Payment Method</label>
+                        <select id="editInvPayment">
+                            <option value="cash">💵 Cash</option>
+                            <option value="card">💳 Card</option>
+                            <option value="transfer">📱 Transfer</option>
+                        </select>
+                    </div>
+                    <div class="form-group full-width">
+                        <label>Note</label>
+                        <input type="text" id="editInvNote" placeholder="Optional note for this invoice..." />
+                    </div>
+                </div>
+
+                <!-- Total display -->
+                <div class="edit-inv-total-bar">
+                    <span>Updated Total:</span>
+                    <span id="editInvTotal" style="font-size:1.3rem;font-weight:800;color:var(--yellow)"></span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-ghost" onclick="closeModal('editInvoiceModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="saveInvoiceEdit()"><i class="fas fa-save"></i> Save
+                    Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="userModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="userModalTitle">Add User</h3>
+                <button class="modal-close" onclick="closeModal('userModal')"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <form id="userForm">
+                    <input type="hidden" id="editUserId" />
+                    <div class="form-group">
+                        <label>Full Name *</label>
+                        <input type="text" id="userName" placeholder="e.g. John Doe" required />
+                    </div>
+                    <div class="form-group" style="margin-top:1rem">
+                        <label>Username *</label>
+                        <input type="text" id="userUsername" placeholder="e.g. john_d" required />
+                    </div>
+                    <div class="form-group" style="margin-top:1rem">
+                        <label>Password *</label>
+                        <input type="password" id="userPassword" placeholder="Enter password" required />
+                    </div>
+                    <div class="form-group" style="margin-top:1rem">
+                        <label>Role</label>
+                        <select id="userRole">
+                            <option value="admin">Administrator</option>
+                            <option value="staff">Staff</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-ghost" onclick="closeModal('userModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="saveUser()"><i class="fas fa-save"></i> Save User</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SUPPLIER MODAL -->
+    <div class="modal-overlay" id="supplierModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="supplierModalTitle">Add Supplier</h3>
+                <button class="modal-close" onclick="closeModal('supplierModal')"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <form id="supplierForm">
+                    <input type="hidden" id="editSupplierId" />
+                    <div class="form-group">
+                        <label>Supplier Name *</label>
+                        <input type="text" id="supplierName" placeholder="e.g. Abans PLC" required />
+                    </div>
+                    <div class="form-group" style="margin-top:1rem">
+                        <label>Contact Person</label>
+                        <input type="text" id="supplierContact" placeholder="e.g. Mr. Perera" />
+                    </div>
+                    <div class="form-group" style="margin-top:1rem">
+                        <label>Phone *</label>
+                        <input type="text" id="supplierPhone" placeholder="e.g. 0112345678" required />
+                    </div>
+                    <div class="form-group" style="margin-top:1rem">
+                        <label>Email</label>
+                        <input type="email" id="supplierEmail" placeholder="e.g. info@supplier.com" />
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-ghost" onclick="closeModal('supplierModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="saveSupplier()"><i class="fas fa-save"></i> Save
+                    Supplier</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PURCHASE MODAL (STOCK IN) -->
+    <div class="modal-overlay" id="purchaseModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Stock In (Add Main Stock)</h3>
+                <button class="modal-close" onclick="closeModal('purchaseModal')"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <form id="purchaseForm">
+                    <div class="form-group">
+                        <label>Select Supplier *</label>
+                        <select id="purchaseSupplier" required></select>
+                    </div>
+                    <div class="form-group" style="margin-top:1rem">
+                        <label>Select Product *</label>
+                        <select id="purchaseProduct" required onchange="updatePurchaseCost()"></select>
+                    </div>
+                    <div class="form-grid" style="margin-top:1rem">
+                        <div class="form-group">
+                            <label>Quantity to Add *</label>
+                            <input type="number" id="purchaseQty" value="1" min="1" required
+                                oninput="updatePurchaseTotal()" />
+                        </div>
+                        <div class="form-group">
+                            <label>Unit Cost (Rs.) *</label>
+                            <input type="number" id="purchaseUnitCost" step="0.01" required
+                                oninput="updatePurchaseTotal()" />
+                        </div>
+                        <div class="form-group">
+                            <label>Amount Paid (Rs.) *</label>
+                            <input type="number" id="purchasePaid" step="0.01" required
+                                placeholder="Amount paid to supplier" />
+                        </div>
+                    </div>
+                    <div class="stat-card blue" style="margin-top:1.5rem; padding:15px">
+                        <div class="stat-info">
+                            <span class="stat-label">Total Cost</span>
+                            <span class="stat-value" id="purchaseTotalCost">Rs. 0.00</span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-ghost" onclick="closeModal('purchaseModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="savePurchase()"><i class="fas fa-plus"></i> Add to
+                    Stock</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ACCOUNT PAYMENT MODAL -->
+    <div class="modal-overlay" id="accountPaymentModal">
+        <div class="modal modal-sm">
+            <div class="modal-header">
+                <h3 id="accPaymentTitle">Record Payment</h3>
+                <button class="modal-close" onclick="closeModal('accountPaymentModal')"><i
+                        class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <form id="accPaymentForm">
+                    <input type="hidden" id="accPaymentType" />
+                    <input type="hidden" id="accPaymentEntityId" />
+                    <div class="form-group">
+                        <label>Entity Name</label>
+                        <input type="text" id="accPaymentEntityName" readonly style="background:var(--bg-primary)" />
+                    </div>
+                    <div class="form-group" style="margin-top:1rem">
+                        <label>Amount to Pay (Rs.) *</label>
+                        <input type="number" id="accPaymentAmount" step="0.01" required />
+                    </div>
+                    <div class="form-group" style="margin-top:1rem">
+                        <label>Payment Note</label>
+                        <input type="text" id="accPaymentNote" placeholder="e.g. Cheque #123 or Cash" />
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-ghost" onclick="closeModal('accountPaymentModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="saveAccountPayment()"><i class="fas fa-check"></i> Save
+                    Payment</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAYMENT HISTORY MODAL -->
+    <div class="modal-overlay" id="paymentHistoryModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="historyModalTitle">Payment History</h3>
+                <button class="modal-close" onclick="closeModal('paymentHistoryModal')"><i
+                        class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Amount</th>
+                                <th>Note</th>
+                                <th style="width:50px">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="paymentHistoryTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" onclick="closeModal('paymentHistoryModal')">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CATEGORY MODAL -->
+    <div class="modal-overlay" id="categoryModal">
+        <div class="modal modal-sm">
+            <div class="modal-header">
+                <h3>Add New Category</h3>
+                <button class="modal-close" onclick="closeModal('categoryModal')"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Category Name *</label>
+                    <input type="text" id="newCategoryName" placeholder="e.g. Graphic Cards" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-ghost" onclick="closeModal('categoryModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="saveCategory()"><i class="fas fa-save"></i> Save
+                    Category</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- QUOTATION PRINT MODAL -->
+    <div class="modal-overlay" id="quotationPrintModal">
+        <div class="modal modal-lg">
+            <div class="modal-header no-border">
+                <h3>Quotation Preview</h3>
+                <div class="modal-header-actions">
+                    <button class="btn btn-primary" onclick="window.print()"><i class="fas fa-print"></i> Print</button>
+                    <button class="modal-close" onclick="closeModal('quotationPrintModal')"><i
+                            class="fas fa-times"></i></button>
+                </div>
+            </div>
+            <div class="modal-body" id="quotationPrintContent"></div>
+        </div>
+    </div>
+
+    <!-- EXPENSE MODAL -->
+    <div class="modal-overlay" id="expenseModal">
+        <div class="modal modal-sm">
+            <div class="modal-header">
+                <h3>Add Shop Expense</h3>
+                <button class="modal-close" onclick="closeModal('expenseModal')"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Category *</label>
+                    <select id="expCategory">
+                        <option value="Electricity">Electricity</option>
+                        <option value="Rent">Rent</option>
+                        <option value="Salary">Salary</option>
+                        <option value="Water">Water</option>
+                        <option value="Transport">Transport</option>
+                        <option value="Food">Food</option>
+                        <option value="Internet">Internet</option>
+                        <option value="Maintenance">Maintenance</option>
+                        <option value="Marketing">Marketing</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group" style="margin-top:1rem">
+                    <label>Amount (Rs.) *</label>
+                    <input type="number" id="expAmount" placeholder="0.00" step="0.01" required />
+                </div>
+                <div class="form-group" style="margin-top:1rem">
+                    <label>Description / Note</label>
+                    <input type="text" id="expDesc" placeholder="e.g. Electricity bill for Jan" />
+                </div>
+                <div class="form-group" style="margin-top:1rem">
+                    <label>Date</label>
+                    <input type="date" id="expDate" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-ghost" onclick="closeModal('expenseModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="saveExpense()"><i class="fas fa-save"></i> Save
+                    Expense</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="app.js"></script>
+    <script src="invoice-actions.js"></script>
+    <script src="reports.js"></script>
+    <script src="batch-export.js"></script>
+</body>
+
+</html>
